@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501856499398",
+    "project_id": "news-app-bfa39",
+    "storage_bucket": "news-app-bfa39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501856499398:android:a81fa1e9de921d5d3109c7",
+        "android_client_info": {
+          "package_name": "com.example.weather_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRP486QLr_dNh8p0CKQhb2wmFFZr8uuH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
