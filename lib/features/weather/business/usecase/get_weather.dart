@@ -6,8 +6,8 @@ import 'package:weather_app/features/weather/business/respositories/weather_repo
 class GetWeather {
   final WeatherRepository weatherRepository;
 
-  GetWeather({required this.weatherRepository});
-  Future<Either<Failure, WeatherEntity>> getWeatherInDay() async {
+  GetWeather(find, {required this.weatherRepository});
+  Future<Either<Failure, WeatherEntity?>> getWeatherInDay() async {
     return await weatherRepository.getWeather();
   }
 }

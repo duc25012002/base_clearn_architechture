@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weather_app/routes/routes.dart';
+import 'package:weather_app/features/weather/presentations/bindings/init_binding.dart';
+import 'package:weather_app/features/weather/presentations/views/routes/routes.dart';
 import 'package:weather_app/translate/localization_service.dart';
 
 Future<void> main() async {
   runApp(GetMaterialApp(
     navigatorKey: Get.key,
     debugShowCheckedModeBanner: false,
-    // initialRoute: Routes.SPLASH,
-    initialBinding: BindingsBuilder(() {
-      // Khởi tạo và đặt bộ điều khiển vào bộ nhớ của GetX
-    }),
+    initialBinding: InitBindings(),
     locale: LocalizationService.locale,
     fallbackLocale: LocalizationService.fallbackLocale,
     translations: LocalizationService(),

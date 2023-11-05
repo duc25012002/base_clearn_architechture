@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:weather_app/routes/routes.dart';
-import 'package:weather_app/values/constants.dart';
+import 'package:weather_app/core/constant/constants.dart';
+import 'package:weather_app/features/weather/presentations/views/routes/routes.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({super.key});

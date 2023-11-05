@@ -4,19 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/controller/home_weather_page_controller.dart';
-import 'package:weather_app/models/weather_model.dart';
-import 'package:weather_app/controller/weather_controller.dart';
+import 'package:weather_app/core/constant/constants.dart';
+import 'package:weather_app/features/weather/business/entities/weather_entity.dart';
+import 'package:weather_app/features/weather/presentations/controllers/weather_controller.dart';
 import 'package:weather_app/translate/localization_service.dart';
 import 'package:weather_app/utils/nav_drawer.dart';
-import 'package:weather_app/values/constants.dart';
 
 import 'package:get/get.dart';
 
-class HomeWeatherPage extends GetView<HomeWeatherPageController> {
-  final weatherService = WeatherService();
-  Weather? weather;
+class HomeWeatherPage extends GetView<WeatherController> {
   String selectedLang = LocalizationService.locale.languageCode;
+  final WeatherController weatherController = Get.find<WeatherController>();
 
   HomeWeatherPage({super.key});
   @override
@@ -24,9 +22,9 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
     SizeConfig().init(context);
     return Scaffold(
       drawer: const NavDrawer(),
-      body: FutureBuilder<Weather>(
-        future: weatherService.getWeather(),
-        builder: (BuildContext context, AsyncSnapshot<Weather> snapshot) {
+      body: FutureBuilder(
+        future: weatherController.getWeatherInPresent(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return const Center(child: CircularProgressIndicator());
@@ -38,7 +36,7 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
                             color: Colors.black,
                             fontSize: SizeConfig.width! * .08)));
               } else {
-                weather = snapshot.data!;
+                WeatherEntity weather = snapshot.data!;
                 return Center(
                   child: Stack(alignment: Alignment.center, children: [
                     Positioned(
@@ -64,9 +62,9 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
                             IconButton(
                                 onPressed: () {
                                   textToSpeed(
-                                      weather!.cityName.tr,
-                                      (weather!.temperature - 273.15).round(),
-                                      weather!.mainCondition.tr);
+                                      weather.cityName.tr,
+                                      (weather.temperature - 273.15).round(),
+                                      weather.mainCondition.tr);
                                 },
                                 icon: const Icon(Icons.volume_down_alt)),
                           ],
@@ -74,7 +72,7 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
                     Positioned(
                       top: SizeConfig.height! * 0.2,
                       child: Text(
-                        weather?.cityName.tr ?? 'no response',
+                        weather.cityName.tr,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: SizeConfig.width! * .1),
@@ -82,18 +80,18 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
                     ),
                     Align(
                         child: Lottie.asset(
-                            getWeatherAnimation(weather?.mainCondition.tr))),
+                            getWeatherAnimation(weather.mainCondition.tr))),
                     Positioned(
                       bottom: SizeConfig.height! * 0.25,
                       child: Text(
-                          '${(weather!.temperature - 273.15).round()}°C'.tr,
+                          '${(weather.temperature - 273.15).round()}°C'.tr,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: SizeConfig.width! * .05)),
                     ),
                     Positioned(
                       bottom: SizeConfig.height! * 0.2,
-                      child: Text(weather?.mainCondition.tr ?? 'no response',
+                      child: Text(weather.mainCondition.tr,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: SizeConfig.width! * .065)),
@@ -102,7 +100,7 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
                       bottom: SizeConfig.height! * .03,
                       right: SizeConfig.width! * .03,
                       child: Text(
-                          'Bình minh: ${convertDateTime(weather!.sunRise)}'.tr,
+                          'Bình minh: ${convertDateTime(weather.sunRise)}'.tr,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: SizeConfig.width! * .03)),
@@ -111,7 +109,7 @@ class HomeWeatherPage extends GetView<HomeWeatherPageController> {
                       bottom: SizeConfig.height! * .01,
                       right: SizeConfig.width! * .03,
                       child: Text(
-                          'Hoàng hôn: ${convertDateTime(weather!.sunSet)}'.tr,
+                          'Hoàng hôn: ${convertDateTime(weather.sunSet)}'.tr,
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: SizeConfig.width! * .03)),

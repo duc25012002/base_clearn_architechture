@@ -19,11 +19,11 @@ class WeatherRepositoryImpl implements WeatherRepository {
   });
 
   @override
-  Future<Either<Failure, WeatherEntity>> getWeather() async {
+  Future<Either<Failure, WeatherEntity?>> getWeather() async {
     if (await networkInfo.isConnected!) {
       try {
         final remoteWeather = await weatherRemoteDataSource.getWeather();
-        weatherLocalDataSource.cacheWeather(remoteWeather);
+        weatherLocalDataSource.cacheWeather(remoteWeather!);
         return Right(remoteWeather);
       } on ServerException {
         return Left(ServerFailure(errorMessage: 'This is ServerException'));
